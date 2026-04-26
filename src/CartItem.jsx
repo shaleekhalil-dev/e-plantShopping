@@ -12,42 +12,42 @@ const CartItem = ({ onContinueShopping }) => {
     return cart.reduce((total, item) => total + (parseCost(item.cost) * item.quantity), 0);
   };
 
-  const handleIncrement = (item) => {
-    dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
-  };
-
-  const handleDecrement = (item) => {
-    if (item.quantity > 1) {
-      dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
-    } else {
-      dispatch(removeItem(item.name));
-    }
-  };
-
   return (
-    <div className="cart-container" style={{padding: '20px', maxWidth: '800px', margin: '0 auto'}}>
-      <h2 style={{textAlign: 'center', color: '#333'}}>Total Cart Amount: ${calculateTotalAmount()}</h2>
+    <div className="cart-wrapper glass-panel">
+      <h2 style={{ textAlign: 'center', fontSize: '2.5rem', color: 'var(--theme-dark)' }}>Your Garden Cart</h2>
+      <h3 style={{ textAlign: 'center', marginBottom: '30px' }}>Total: ${calculateTotalAmount()}</h3>
+      
       <div>
         {cart.map(item => (
-          <div className="cart-item" key={item.name} style={{display: 'flex', borderBottom: '1px solid #eee', padding: '15px 0', alignItems: 'center'}}>
-            <img src={item.image} alt={item.name} style={{width: '100px', height: '100px', objectFit: 'cover', borderRadius: '5px'}} />
-            <div style={{flex: 1, marginLeft: '20px'}}>
-              <div style={{fontSize: '18px', fontWeight: 'bold'}}>{item.name}</div>
-              <div style={{color: '#4CAF50'}}>{item.cost}</div>
-              <div style={{margin: '10px 0'}}>
-                <button onClick={() => handleDecrement(item)} style={{padding: '5px 10px'}}>-</button>
-                <span style={{margin: '0 15px'}}>{item.quantity}</span>
-                <button onClick={() => handleIncrement(item)} style={{padding: '5px 10px'}}>+</button>
+          <div className="cart-item" key={item.name}>
+            <img className="cart-img" src={item.image} alt={item.name} />
+            <div className="cart-details">
+              <h3 style={{ margin: '0 0 10px 0', fontSize: '1.5rem' }}>{item.name}</h3>
+              <p style={{ margin: '0 0 15px 0', color: '#555', fontWeight: 'bold' }}>Price: {item.cost}</p>
+              
+              <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                <button className="qty-btn" onClick={() => {
+                  if(item.quantity > 1) dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }))
+                  else dispatch(removeItem(item.name))
+                }}>-</button>
+                <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{item.quantity}</span>
+                <button className="qty-btn" onClick={() => dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }))}>+</button>
               </div>
-              <div style={{fontWeight: 'bold'}}>Total: ${parseCost(item.cost) * item.quantity}</div>
-              <button onClick={() => dispatch(removeItem(item.name))} style={{color: 'red', background: 'none', border: 'none', cursor: 'pointer', marginTop: '10px'}}>Delete</button>
+              
+              <p style={{ marginTop: '15px', fontWeight: 'bold' }}>Subtotal: ${parseCost(item.cost) * item.quantity}</p>
+              <button className="del-btn" onClick={() => dispatch(removeItem(item.name))}>Remove Plant</button>
             </div>
           </div>
         ))}
       </div>
-      <div style={{marginTop: '30px', display: 'flex', gap: '15px', justifyContent: 'center'}}>
-        <button onClick={onContinueShopping} style={{padding: '10px 20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px'}}>Continue Shopping</button>
-        <button onClick={() => alert('Checkout Coming Soon')} style={{padding: '10px 20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px'}}>Checkout</button>
+
+      <div style={{ marginTop: '40px', display: 'flex', gap: '20px', justifyContent: 'center' }}>
+        <button className="glow-button" onClick={onContinueShopping} style={{ padding: '12px 30px', fontSize: '1rem' }}>
+          Back to Garden
+        </button>
+        <button className="glow-button" onClick={() => alert('Checkout functionality is blooming soon!')} style={{ padding: '12px 30px', fontSize: '1rem', background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' }}>
+          Checkout
+        </button>
       </div>
     </div>
   );

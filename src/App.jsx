@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import ProductList from './ProductList';
-import './App.css';
 import AboutUs from './AboutUs';
 
 function App() {
@@ -9,24 +8,24 @@ function App() {
   return (
     <div className="app-container">
       <div className={`landing-page ${showProductList ? 'fade-out' : ''}`}>
-        <div className="background-image"></div>
-        <div className="content">
-          <div className="landing_content">
-            <h1>Welcome To Paradise Nursery</h1>
-            <div className="divider"></div>
-            <p>Where Greenery Meets Serenity</p>
-            <button className="get-started-button" onClick={() => setShowProductList(true)}>
-              Get Started
+        <div className="content-wrapper">
+          <div className="hero-content glass-panel">
+            <h1 className="hero-title">Paradise Nursery</h1>
+            <div style={{ height: '3px', background: 'white', width: '60%', margin: '0 auto 20px', borderRadius: '5px' }}></div>
+            <p className="hero-subtitle">Breathe Life Into Your Space. Discover our exotic collection of nature's finest.</p>
+            <button className="glow-button" onClick={() => setShowProductList(true)}>
+              Enter The Garden
             </button>
           </div>
-          <div className="aboutus_container">
-            <AboutUs />
-          </div>
+          <AboutUs />
         </div>
       </div>
-      <div className={`product-list-container ${showProductList ? 'visible' : ''}`}>
-        <ProductList />
-      </div>
+      
+      {showProductList && (
+        <div className="product-list-container">
+          <ProductList />
+        </div>
+      )}
     </div>
   );
 }
